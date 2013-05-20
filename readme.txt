@@ -1,4 +1,4 @@
-=== WOW Trk ===
+=== WOW Trk - Affiliate Marketing Ad Rotator ===
 Contributors: mdeluk
 Donate link: 
 Tags: affiliate marketing, affiliate network, advertising, affiliate widget, monetization, earn money, easy money, automatic income, free, make money, banner rotators, wow, tool
@@ -65,7 +65,7 @@ Not a lot! The plugin updates with new offer creatives and optimises automatical
 
 == Changelog ==
 
-1.0 - Initial version
+0.1 - Initial version
 
 == Upgrade notice ==
 
