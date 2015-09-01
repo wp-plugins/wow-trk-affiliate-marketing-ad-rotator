@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: WOW Trk Affiliate Plugin
-Description: WOW Trk ad management plugin. Edit options under 'Settings > WOW Trk' or add it as widget under 'Appearance > Widgets'.
-Version: 1.0
+Plugin Name: WOW Trk Affiliate Ad Plugin
+Description: WOW Trk - Banner Ad Management plugin. Edit options under 'Settings > WOW Trk' also add it as widget under 'Appearance > Widgets'.
+Version: 1.1
 Author: WOW Trk - International Affiliate Network
 Author URI: http://www.wowtrk.com/
 */
@@ -35,7 +35,7 @@ function wowtrk_get_ad_code( $options ){
 			$referral_link .= 'float: '.$banner_alignment.';';
 		else
 			$referral_link .= 'margin: 0 auto;';
-		$referral_link .= 'text-align: right; font-size: 11px;">Ads by <a href="http://p.wowtrk.com/signup/'. urlencode($affiliate_id) .'" target="_blank">WOW Trk</a></div>
+		$referral_link .= 'text-align: right; font-size: 11px;">Ads by <a href="http://www.wowtrk.com/signup-affiliate/?ref_id='. urlencode($affiliate_id) .'" target="_blank">WOW Trk</a></div>
 		<div style="clear: both;"></div>';
 	}
 		
@@ -59,7 +59,8 @@ class wowtrk_affiliate{
 	private $ad_options = array(
 		52 => array('name' => '468x60', 'width' => '468', 'height' => '60'),
 		54 => array('name' => '728x90', 'width'=>'728', 'height' => '90'),
-		56 => array('name' => '300x250', 'width'=>'300', 'height' => '250')
+		56 => array('name' => '300x250', 'width'=>'300', 'height' => '250'),
+		60 => array('name' => '125x125', 'width'=>'125', 'height' => '125')
 	);
 	private $options = array();
 	private $js = '';
@@ -112,14 +113,14 @@ class wowtrk_affiliate{
 	}
 	
 	function admin_menu(){
-		add_options_page( 'WOW Trk - Options', 'WOW Trk', 'administrator', 'wowtrk-options', array($this, 'wowtrk_options') );
+		add_options_page( 'WOW Trk - Banner Ad Manager: Settings', 'WOW Trk', 'administrator', 'wowtrk-options', array($this, 'wowtrk_options') );
 	}
 	
 	function admin_notice(){
 		if(isset($_GET['page']) && $_GET['page'] == 'wowtrk-options') return;
 		?>
 		<div class="updated">
-			<p><?php _e( 'You need to configure WOW Trk affiliate plugin for it to work. <a href="'.admin_url('options-general.php?page=wowtrk-options').'">Click Here</a> to do it now!', 'wowtrk' ); ?></p>
+			<p><?php _e( 'You need to configure the WOW Trk Banner Ad Manager plugin for it to work. <a href="'.admin_url('options-general.php?page=wowtrk-options').'">Click Here</a> to do it now!', 'wowtrk' ); ?></p>
 		</div>
 		<?php
 	}
@@ -174,13 +175,17 @@ class wowtrk_affiliate{
 		}
 		$options = get_option('wowtrk-affiliate-options',$defaults);
 		echo '
-<a href="http://p.wowtrk.com" target="_blank"><img src="/wowtrk-logo.png"></a>
-<h2>WOW Trk - Options</h2>';
+<a href="http://www.wowtrk.com/login" target="_blank"><img src="' . get_bloginfo('wpurl') . '/wp-content/plugins/wow-trk-affiliate-marketing-ad-rotator/assets/wowtrk-logo.png" alt="WOW Trk - Logo"></a>
+<h2>WOW Trk - Settings</h2>';
 		if($updated)
 			echo '<div class="updated">Options Updated!</div>';
 		echo'<form method="post" action="'.admin_url('options-general.php?page=wowtrk-options').'">
 		<table class="form-table">
-		<tr><th scope="row">Affiliate ID</th><td><input type="text" name="affiliate_id" value="'.$options['affiliate_id'].'"></td></tr>
+		<tr><th scope="row">Affiliate ID</th><td><input type="text" name="affiliate_id" value="'.$options['affiliate_id'].'"><br>
+Unsure what your Affiliate ID is?<BR>
+Login to your account and go to My Account -> Account Details, on the account details page under Company Details you will find your ID.
+</td>
+</tr>
 		<tr><th scope="row">Sub ID (optional)</th><td><input type="text" name="sub_id" value="'.$options['sub_id'].'"></td></tr>
 		<tr><th scope="row">Banner Size</th>
 			<td>
@@ -221,22 +226,20 @@ class wowtrk_affiliate{
 				<label><input type="checkbox" name="show_on_pages" value="1" '.(($options['show_on_pages'])?'checked="checked"':'').'> Pages</label>
 			</td>
 		</tr>
-		<tr><th scope="row">Display Referral Link</th>
+		<tr><th scope="row">Show Referral Link</th>
 			<td>
-				<label><input type="checkbox" name="show_referral_link" value="1" '.(($options['show_referral_link'])?'checked="checked"':'').'> Display \'Ads by WOW Trk\'</label><br/>
+				<label><input type="checkbox" name="show_referral_link" value="1" '.(($options['show_referral_link'])?'checked="checked"':'').'> Display \'Ads by WOW Trk\' link and earn 3% for life on any affiliates you refer.</label><br/>
 			</td>
 		</tr>
-		<tr><th scope="row"></th><td><input type="hidden" name="wowtrk_action" value="save_options"><input type="submit" value="Save"></td></tr>
+		<tr><th scope="row"></th><td><input type="hidden" name="wowtrk_action" value="save_options"><input type="submit" value="Update Settings"></td></tr>
 		</table>
 		</form>
 
-<Br><BR>
-Unsure what your Affiliate ID is? Login to your account and click on Support -> Affiliate ID in the navigation bar.
 <BR><BR>
-If you need more help just drop us an email at support@wowmedia.eu
+If you need any help just drop us an email at <a href="mailto:info@wowtrk.com">info@wowtrk.com</a>
 <BR><BR><BR>
-<b>Not joined WOW Trk yet?</b> Sign up here:<br>
-<A href="http://p.wowtrk.com/signup" target="_blank">http://p.wowtrk.com/signup</a>
+<b>Not joined WOW Trk yet?</b> Open an account instantly using the link below and start earning from your website!<br>
+<A href="http://www.wowtrk.com/signup-affiliate/" target="_blank">http://www.wowtrk.com/signup-affiliate/</a>
 		';
 	}
 }
@@ -300,6 +303,8 @@ class WOWTrk_Widget extends WP_Widget {
 		$banner_size = $instance['banner_size'];
 		$banner_type = $instance['banner_type'];
 		$banner_alignment = $instance['banner_alignment'];
+
+
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title (optional):' ); ?></label> 
@@ -346,4 +351,7 @@ class WOWTrk_Widget extends WP_Widget {
 }
 
 $wowtrk_affiliate = new wowtrk_affiliate();
+
+
+
 ?>
