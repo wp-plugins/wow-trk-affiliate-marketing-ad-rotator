@@ -2,7 +2,7 @@
 /*
 Plugin Name: WOW Trk Affiliate Ad Plugin
 Description: WOW Trk - Banner Ad Management plugin. Edit options under 'Settings > WOW Trk' also add it as widget under 'Appearance > Widgets'.
-Version: 1.1
+Version: 1.2
 Author: WOW Trk - International Affiliate Network
 Author URI: http://www.wowtrk.com/
 */
@@ -175,8 +175,7 @@ class wowtrk_affiliate{
 		}
 		$options = get_option('wowtrk-affiliate-options',$defaults);
 		echo '
-<a href="http://www.wowtrk.com/login" target="_blank"><img src="' . get_bloginfo('wpurl') . '/wp-content/plugins/wow-trk-affiliate-marketing-ad-rotator/assets/wowtrk-logo.png" alt="WOW Trk - Logo"></a>
-<h2>WOW Trk - Settings</h2>';
+<h2><font color="orange">WOW</font><font color="#0095C2">TRK</font> Affiliate Ads Plugin: Settings</h2>';
 		if($updated)
 			echo '<div class="updated">Options Updated!</div>';
 		echo'<form method="post" action="'.admin_url('options-general.php?page=wowtrk-options').'">
@@ -220,10 +219,15 @@ Login to your account and go to My Account -> Account Details, on the account de
 				echo'</select>
 			</td>
 		</tr>
-		<tr><th scope="row">Display on</th>
+		<tr><th scope="row">Display Ads on</th>
 			<td>
 				<label><input type="checkbox" name="show_on_posts" value="1" '.(($options['show_on_posts'])?'checked="checked"':'').'> Posts</label><br/>
 				<label><input type="checkbox" name="show_on_pages" value="1" '.(($options['show_on_pages'])?'checked="checked"':'').'> Pages</label>
+			</td>
+		</tr>
+	<tr><th scope="row">Widget</th>
+			<td>
+				<label><i>To enable the WOW Trk Ads widget go to Appearance -> Widgets on your Wordpress Admin.</i></label>
 			</td>
 		</tr>
 		<tr><th scope="row">Show Referral Link</th>
